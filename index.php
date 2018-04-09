@@ -69,43 +69,52 @@
             </div>
         </div>
 
+
         <div class="row lec_list-cls hidethis" id="lec_list">
+        
             <table class="table">
                 <thead>
                     <tr>
-                    <th scope="col">#</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                        <th scope="col">ID</th>
+                        <th scope="col">Title</th>
+                        <th scope="col">Lecture No</th>
+                        <th scope="col">Program Type</th>
+                        <th scope="col">Course Name</th>
+                        <th scope="col">Lecture Type</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td>@mdo</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">2</th>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                    <td>@fat</td>
-                    </tr>
-                    <tr>
-                    <th scope="row">3</th>
-                    <td>Larry</td>
-                    <td>the Bird</td>
-                    <td>@twitter</td>
-                    </tr>
+                <?php
+                    $servername = "localhost";
+                    $database = "lecture";
+                    $username = "root";
+                    $password = "123456";
+                    $db = mysqli_connect($servername, $username, $password, $database);
+                    if (!$db) {
+                        die("Connection failed: " . mysqli_connect_error());
+                    }else{
+                        // echo 'Database successfully connected';
+                    }
+                    $query = mysqli_query($db, "SELECT * FROM lectures") or die (mysqli_error($dbconnect));
+                    while ($row = mysqli_fetch_array($query)) {
+                        echo
+                         "<tr>
+                            <td>{$row['id']}</td>
+                            <td>{$row['lec_title']}</td>
+                            <td>{$row['lec_no']}</td>
+                            <td>{$row['prog_type']}</td>
+                            <td>{$row['course_name']}</td>
+                            <td>{$row['lec_type']}</td>
+                         </tr>";
+                      
+                      }
+                ?>
                 </tbody>
             </table>
         </div>
     </div>
 
     <?php
-
-        // $db = new PDO('mysql:host=localhost;dbname=lecture;charset=utf8mb4', 'root', '123456');
         $servername = "localhost";
         $database = "lecture";
         $username = "root";
@@ -113,8 +122,9 @@
         $db = mysqli_connect($servername, $username, $password, $database);
         if (!$db) {
             die("Connection failed: " . mysqli_connect_error());
+        }else{
+            // echo 'Database successfully connected';
         }
-        echo "Connected successfully";
         
         if(isset($_POST['submit'])){
             $lec_title = $_POST['lec_title'];
@@ -123,36 +133,28 @@
             $lec_type = $_POST['lec_type'];
             $course_name = $_POST['course_name'];
             if($lec_title == ""){
-                    echo "<script>window.open('index.php?name=Error: Student Name is Required','_self')</script>";
+                echo "<script>window.open('index.php?name=Error: Lecture Title is Required','_self')</script>";
             }
             if($lec_no == ""){
-                    echo "<script>window.open('index.php?f_name=Error: Father Name is Required','_self')</script>";
+                echo "<script>window.open('index.php?f_name=Error: Lecture Number is Required','_self')</script>";
             }
             if($prog_type == "Select Program"){
-                    echo "<script>window.open('index.php?course=Error: Please Select Your Program','_self')</script>";
+                echo "<script>window.open('index.php?course=Error: Program Type is Required','_self')</script>";
             }
             if($lec_type == ""){
-                    echo "<script>window.open('index.php?number=Error: lec_type Number is Required','_self')</script>";
+                echo "<script>window.open('index.php?number=Error: Lecture Type is Required','_self')</script>";
             }
             if($course_name == ""){
-                    echo "<script>window.open('index.php?adress=Error: course_name is Required','_self')</script>";
+                echo "<script>window.open('index.php?adress=Error: Course Name is Required','_self')</script>";
             }
             else{
-                    $query = "INSERT INTO lectures(lec_title,lec_no,prog_type,lec_type) VALUES('$lec_title','$lec_no','$prog_type','$lec_type')";
-                    if (mysqli_query($db, $query)) {
-                        echo "New record created successfully";
-                    } else {
-                            echo "Error: " . $sql . "<br>" . mysqli_error($db);
-                    }
-                    mysqli_close($db);
-                    
-                    // $run = mysql_query($query);
-                    // if($run){
-                    //     echo "<script>alert('Data has been insert Successfully');</script>";
-                    // }
-                    // else{
-                    //     echo mysql_error();
-                    // }
+                $query = "INSERT INTO lectures(lec_title,lec_no,prog_type,course_name,lec_type) VALUES('$lec_title','$lec_no','$prog_type','$course_name','$lec_type')";
+                if (mysqli_query($db, $query)) {
+                    echo "<script>alert('New record created successfully')</script>";
+                } else {
+                        echo "Error: " . $sql . "<br>" . mysqli_error($db);
+                }
+                mysqli_close($db);
             }
         }
     ?>
