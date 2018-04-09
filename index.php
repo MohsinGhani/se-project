@@ -105,38 +105,55 @@
 
     <?php
 
-        $db = new PDO('mysql:host=localhost;dbname=lecture;charset=utf8mb4', 'root', '123456');
+        // $db = new PDO('mysql:host=localhost;dbname=lecture;charset=utf8mb4', 'root', '123456');
+        $servername = "localhost";
+        $database = "lecture";
+        $username = "root";
+        $password = "123456";
+        $db = mysqli_connect($servername, $username, $password, $database);
+        if (!$db) {
+            die("Connection failed: " . mysqli_connect_error());
+        }
+        echo "Connected successfully";
+        
         if(isset($_POST['submit'])){
             $lec_title = $_POST['lec_title'];
             $lec_no = $_POST['lec_no'];
             $prog_type = $_POST['prog_type'];
             $lec_type = $_POST['lec_type'];
             $course_name = $_POST['course_name'];
-        if($lec_title == ""){
-                echo "<script>window.open('index.php?name=Error: Student Name is Required','_self')</script>";
-        }
-        if($lec_no == ""){
-                echo "<script>window.open('index.php?f_name=Error: Father Name is Required','_self')</script>";
-        }
-        if($prog_type == "Select Program"){
-                echo "<script>window.open('index.php?course=Error: Please Select Your Program','_self')</script>";
-        }
-        if($lec_type == ""){
-                echo "<script>window.open('index.php?number=Error: lec_type Number is Required','_self')</script>";
-        }
-        if($course_name == ""){
-                echo "<script>window.open('index.php?adress=Error: course_name is Required','_self')</script>";
-        }
-        else{
-            $query = "insert into lectures(lec_title,lec_no,prog_type,lec_type) values('$lec_title','$lec_no','$prog_type','$lec_type)";
-            $run = mysql_query($query);
-            if($run){
-                echo "<script>alert('Data has been insert Successfully');</script>";
+            if($lec_title == ""){
+                    echo "<script>window.open('index.php?name=Error: Student Name is Required','_self')</script>";
             }
-        else{
-            echo mysql_error();
-        }
-        }
+            if($lec_no == ""){
+                    echo "<script>window.open('index.php?f_name=Error: Father Name is Required','_self')</script>";
+            }
+            if($prog_type == "Select Program"){
+                    echo "<script>window.open('index.php?course=Error: Please Select Your Program','_self')</script>";
+            }
+            if($lec_type == ""){
+                    echo "<script>window.open('index.php?number=Error: lec_type Number is Required','_self')</script>";
+            }
+            if($course_name == ""){
+                    echo "<script>window.open('index.php?adress=Error: course_name is Required','_self')</script>";
+            }
+            else{
+                    $query = "INSERT INTO lectures(lec_title,lec_no,prog_type,lec_type) VALUES('$lec_title','$lec_no','$prog_type','$lec_type')";
+                    if (mysqli_query($db, $query)) {
+                        echo "New record created successfully";
+                    } else {
+                            echo "Error: " . $sql . "<br>" . mysqli_error($db);
+                    }
+                    mysqli_close($db);
+                    
+                    // $run = mysql_query($query);
+                    // if($run){
+                    //     echo "<script>alert('Data has been insert Successfully');</script>";
+                    // }
+                    // else{
+                    //     echo mysql_error();
+                    // }
+            }
         }
     ?>
     
