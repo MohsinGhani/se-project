@@ -21,6 +21,7 @@
 	<div id="my_camera"></div>
 	
 	<!-- First, include the Webcam.js JavaScript Library -->
+	<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
 	<script type="text/javascript" src="webcam.min.js"></script>
 	
 	<!-- Configure a few settings and attach camera -->
@@ -36,6 +37,7 @@
 	
 	<!-- A button for taking snaps -->
 	<form>
+		<input type="button" value="Access Camera" onClick="setup(); $(this).hide().next().show();">
 		<input type=button value="Take Snapshot" onClick="take_snapshot()">
 	</form>
 	
