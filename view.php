@@ -39,9 +39,16 @@
     </nav>
     <div class="container">
         <div class="row">
-            <div class="col-sm-6">
-                Lecture Type <?php echo $row['lec_type']; ?>
+            <div class="col-sm-6" style="padding:20px">
+            <?php
+                if($row['lec_type'] == 'ppt'){
+                    echo "
+                        <iframe src='https://pern-my.sharepoint.com/personal/sp16bs0065_maju_edu_pk/_layouts/15/WopiFrame.aspx?sourcedoc={ba8e2b9e-6d82-46b1-b791-db6b05bb35dc}&action=embedview&wdAr=1.3333333333333333' width='500px' height='450px' frameborder='0'>This is an embedded <a target='_blank' href='https://office.com'>Microsoft Office</a> presentation, powered by <a target='_blank' href='https://office.com/webapps'>Office Online</a>.</iframe>
+                    ";
+                }
+            ?>
             </div>
+
             <div class="col-sm-6 web-cam">
             <div id="my_camera" style="width: 100%; height: 100%"></div>
             <!-- First, include the Webcam.js JavaScript Library -->

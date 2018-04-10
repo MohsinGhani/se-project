@@ -69,10 +69,10 @@
                                     <input type='submit' name='view' class='btn btn-secondary btn-sm' value='View' />
                                     <input type='hidden' name='id' value='{$row['id']}'/>
                                 </form>
-                                <form action='list.php' method='post'>
-                                    <input type='submit' name='delete' class='btn btn-danger btn-sm' value='Delete' />
-                                    <input type='hidden' name='id' value='{$row['id']}'/>
-                                </form>
+                                <!--<form action='list.php' method='post'>
+                                     <input type='submit' name='delete' class='btn btn-danger btn-sm' value='Delete' />
+                                     <input type='hidden' name='id' value='{$row['id']}'/>
+                                 </form> -->
                             </td>
                          </tr>";
                       
