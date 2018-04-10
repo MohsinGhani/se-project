@@ -130,8 +130,12 @@
                     if(move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $path)) {
                         // echo "The file ".  basename( $_FILES['uploaded_file']['name']). " has been uploaded";
                     } else{
-                        echo "There was an error uploading the file, please try again!";
+                        // echo "There was an error uploading the file, please try again!";
                     }
+                }
+                if($lec_type == "ppt"){
+                    $path = $ppt_path;
+                    echo $path;
                 }
                 $query = "INSERT INTO lectures(lec_title,prog_type,course_name,lec_type,file_path) VALUES('$lec_title','$prog_type','$course_name','$lec_type','$path')";
                 if (mysqli_query($db, $query)) {

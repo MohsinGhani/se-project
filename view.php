@@ -42,8 +42,9 @@
             <div class="col-sm-6" style="padding:20px">
             <?php
                 if($row['lec_type'] == 'ppt'){
+                    $src = $row['file_path'];
                     echo "
-                        <iframe src='https://pern-my.sharepoint.com/personal/sp16bs0065_maju_edu_pk/_layouts/15/WopiFrame.aspx?sourcedoc={ba8e2b9e-6d82-46b1-b791-db6b05bb35dc}&action=embedview&wdAr=1.3333333333333333' width='500px' height='450px' frameborder='0'>This is an embedded <a target='_blank' href='https://office.com'>Microsoft Office</a> presentation, powered by <a target='_blank' href='https://office.com/webapps'>Office Online</a>.</iframe>
+                        <iframe src='$src' width='500px' height='450px' frameborder='0'>This is an embedded <a target='_blank' href='https://office.com'>Microsoft Office</a> presentation, powered by <a target='_blank' href='https://office.com/webapps'>Office Online</a>.</iframe>
                     ";
                 }
             ?>
@@ -69,6 +70,32 @@
             <form>
                 <input type="button" value="Start" onClick="setup(); $(this).hide().next().show();">
             </form>
+            </div>
+        </div> <!--webcam-->
+
+        <div class="row" style="margin-top: 40px">
+            <h2>Lecture Detail</h2>
+            <div class="col-sm-12">
+            <table class="table table-hover">
+            <tbody>
+                <tr>
+                    <th scope="row">Lecture ID</th>
+                    <td><?php echo $row['id']; ?></td>
+                </tr>
+                <tr>
+                    <th scope="row">Lecture Title</th>
+                    <td><?php echo $row['lec_title']; ?></td>
+                </tr>
+                <tr>
+                    <th scope="row">Course Name</th>
+                    <td><?php echo $row['course_name']; ?></td>
+                </tr>
+                <tr>
+                    <th scope="row">Lecture Type</th>
+                    <td><?php echo $row['lec_type']; ?></td>
+                </tr>
+            </tbody>
+            </table>
             </div>
         </div>
     </div>
