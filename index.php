@@ -13,6 +13,23 @@
     <link href="style.css" rel="stylesheet">
 </head>
 <body style="background:#eaecf1">
+<script>
+        function selectType(){
+            var x = document.getElementById("lec_type").value;
+            if(x == 'ppt'){
+                document.getElementById("ppt_input").classList.remove('hidethis');
+                document.getElementById("doc_input").classList.add('hidethis');
+            }else{
+                document.getElementById("doc_input").classList.remove('hidethis');
+                document.getElementById("ppt_input").classList.add('hidethis');
+            }
+        }
+
+        function gotoList(){
+            window.location = 'list.php';
+        }
+    </script>
+
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -23,23 +40,19 @@
         <div class="row">
             <div class="col-sm-10"></div>
             <div class="col-sm-2">
-                <button onclick="showLecForm()" type="button" class="btn btn-secondary add-lec-btn" id="add_lec_btn">Lecture List</button>
-                <button onclick="hideLecForm()" type="button" class="btn btn-secondary add-lec-btn hidethis" id="list_lec_btn">Add Lecture</button>
+                <a href="list.php" type="button" class="btn btn-secondary add-lec-btn" id="add_lec_btn">Lecture List</a>
             </div>
         </div>
 
         <div class="row lec-form" id="lec_container">
             <div class="col-sm-1"></div>
             <div class="col-sm-10">
-            <form action="index.php" method="post">
+            <form enctype="multipart/form-data" action="index.php" method="POST">
                 <div class="form-group">
                     <label for="exampleInputEmail1">Title</label>
                     <input type="text" name="lec_title" class="form-control" id="lec_title" placeholder="Lecture Title">
                 </div>
-                <div class="form-group">
-                    <label for="exampleInputEmail1">Lecture No.</label>
-                    <input type="number" name="lec_no" class="form-control" id="lec_no" placeholder="Lecture Title">
-                </div>
+
                 <div class="form-group">
                     <label for="prog_type">Program</label>
                     <select class="form-control" id="prog_type"  name="prog_type">
@@ -56,61 +69,25 @@
                 </div>
                 <div class="form-group">
                     <label for="lec_type">Lecture Type</label>
-                    <select class="form-control" id="lec_type" name="lec_type">
-                        <option>MS Power Point</option>
-                        <option>MS Word</option>
-                        <option>Video</option>
-                        <option>Audio</option>
-                        <option>Image</option>
+                    <select class="form-control" id="lec_type" name="lec_type"  onchange="selectType()">
+                        <option value="null">Select Lecture Type</option>
+                        <option value="ppt">MS Power Point</option>
+                        <option value="msdoc">MS Word</option>
+                        <option value="video">Video</option>
+                        <option value="audio">Audio</option>
+                        <option value="image">Image</option>
                     </select>
+                </div>
+                <div id="ppt_input" class="hidethis form-group">
+                    <label for="ppt_path">Embed Path</label>
+                    <input type="text" class="form-control" id="ppt_path" placeholder="Write Embed Path"  name="ppt_path">
+                </div>
+                <div id="doc_input" class="hidethis form-group">
+                    <input type="file" name="uploaded_file"></input>
                 </div>
                 <button type="submit" name="submit" class="btn btn-outline-secondary btn-block">Submit</button>
                 </form>
             </div>
-        </div>
-
-
-        <div class="row lec_list-cls hidethis" id="lec_list">
-        
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Title</th>
-                        <th scope="col">Lecture No</th>
-                        <th scope="col">Program Type</th>
-                        <th scope="col">Course Name</th>
-                        <th scope="col">Lecture Type</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <?php
-                    $servername = "localhost";
-                    $database = "lecture";
-                    $username = "root";
-                    $password = "123456";
-                    $db = mysqli_connect($servername, $username, $password, $database);
-                    if (!$db) {
-                        die("Connection failed: " . mysqli_connect_error());
-                    }else{
-                        // echo 'Database successfully connected';
-                    }
-                    $query = mysqli_query($db, "SELECT * FROM lectures") or die (mysqli_error($dbconnect));
-                    while ($row = mysqli_fetch_array($query)) {
-                        echo
-                         "<tr>
-                            <td>{$row['id']}</td>
-                            <td>{$row['lec_title']}</td>
-                            <td>{$row['lec_no']}</td>
-                            <td>{$row['prog_type']}</td>
-                            <td>{$row['course_name']}</td>
-                            <td>{$row['lec_type']}</td>
-                         </tr>";
-                      
-                      }
-                ?>
-                </tbody>
-            </table>
         </div>
     </div>
 
@@ -118,8 +95,9 @@
         $servername = "localhost";
         $database = "lecture";
         $username = "root";
-        $password = "123456";
+        $password = "";
         $db = mysqli_connect($servername, $username, $password, $database);
+
         if (!$db) {
             die("Connection failed: " . mysqli_connect_error());
         }else{
@@ -128,54 +106,46 @@
         
         if(isset($_POST['submit'])){
             $lec_title = $_POST['lec_title'];
-            $lec_no = $_POST['lec_no'];
             $prog_type = $_POST['prog_type'];
             $lec_type = $_POST['lec_type'];
             $course_name = $_POST['course_name'];
+            $ppt_path = $_POST['ppt_path'];
+            // $uploaded_file = $_POST['uploaded_file'];
             if($lec_title == ""){
                 echo "<script>window.open('index.php?name=Error: Lecture Title is Required','_self')</script>";
-            }
-            if($lec_no == ""){
-                echo "<script>window.open('index.php?f_name=Error: Lecture Number is Required','_self')</script>";
             }
             if($prog_type == "Select Program"){
                 echo "<script>window.open('index.php?course=Error: Program Type is Required','_self')</script>";
             }
-            if($lec_type == ""){
+            if($lec_type == "null"){
                 echo "<script>window.open('index.php?number=Error: Lecture Type is Required','_self')</script>";
             }
             if($course_name == ""){
                 echo "<script>window.open('index.php?adress=Error: Course Name is Required','_self')</script>";
             }
             else{
-                $query = "INSERT INTO lectures(lec_title,lec_no,prog_type,course_name,lec_type) VALUES('$lec_title','$lec_no','$prog_type','$course_name','$lec_type')";
-                if (mysqli_query($db, $query)) {
-                    echo "<script>alert('New record created successfully')</script>";
-                } else {
-                        echo "Error: " . $sql . "<br>" . mysqli_error($db);
+                $path = "uploads/";
+                if(!empty($_FILES['uploaded_file'])){
+                    $path = $path . basename( $_FILES['uploaded_file']['name']);
+                    if(move_uploaded_file($_FILES['uploaded_file']['tmp_name'], $path)) {
+                        // echo "The file ".  basename( $_FILES['uploaded_file']['name']). " has been uploaded";
+                    } else{
+                        echo "There was an error uploading the file, please try again!";
+                    }
                 }
+                $query = "INSERT INTO lectures(lec_title,prog_type,course_name,lec_type,file_path) VALUES('$lec_title','$prog_type','$course_name','$lec_type','$path')";
+                if (mysqli_query($db, $query)) {
+                    echo "<script>
+                            gotoList()
+                        </script>";
+                } else {
+                    echo "Error: " . $sql . "<br>" . mysqli_error($db);
+                }
+
                 mysqli_close($db);
             }
         }
     ?>
-    
-
-    <script>
-        function showLecForm(){
-            document.getElementById("lec_container").classList.add('hidethis');
-            document.getElementById("add_lec_btn").classList.add('hidethis');
-            document.getElementById("lec_list").classList.remove('hidethis');
-            document.getElementById("list_lec_btn").classList.remove('hidethis');
-        }
-
-        function hideLecForm(){
-            document.getElementById("add_lec_btn").classList.remove('hidethis');
-            document.getElementById("lec_container").classList.remove('hidethis');
-            document.getElementById("list_lec_btn").classList.add('hidethis');
-            document.getElementById("lec_list").classList.add('hidethis');
-        }
-    </script>
-
   <script src="js/bootstrap.min.js"></script>
   <!-- <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script> -->
