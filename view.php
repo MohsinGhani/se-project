@@ -37,7 +37,9 @@
         </button>
         <a class="navbar-brand" href="#">Lecture Tool</a>
     </nav>
+    
     <div class="container">
+        <!-- <a href="./list.php" type="button" class="btn btn-secondary" style="margin-top: 10px;" id="list_lec_btn">Back</a> -->
         <div class="row">
             <div class="col-sm-6" style="padding:20px">
             <?php
@@ -46,8 +48,10 @@
                     echo "
                         <iframe src='$src' width='500px' height='450px' frameborder='0'>This is an embedded <a target='_blank' href='https://office.com'>Microsoft Office</a> presentation, powered by <a target='_blank' href='https://office.com/webapps'>Office Online</a>.</iframe>
                     ";
+                }else{
+                    // echo "<embed width='500px' height='450px' src='uploads/one.pdf'></embed>";
                 }
-            ?>
+                ?>
             </div>
 
             <div class="col-sm-6 web-cam">
