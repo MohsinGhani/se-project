@@ -64,13 +64,29 @@
                             <td>{$row['prog_type']}</td>
                             <td>{$row['course_name']}</td>
                             <td>{$row['lec_type']}</td>
-                            <td>
-                                <button type='button' class='btn btn-secondary btn-sm'>View</button>
-                                <button type='button' class='btn btn-danger btn-sm'>Delete</button>
+                            <td style='display: flex'>
+                                <form action='list.php' method='post'>
+                                    <input type='submit' name='view' class='btn btn-secondary btn-sm' value='View' />
+                                    <input type='hidden' name='id' value='{$row['id']}'/>
+                                </form>
+                                <form action='list.php' method='post'>
+                                    <input type='submit' name='delete' class='btn btn-danger btn-sm' value='Delete' />
+                                    <input type='hidden' name='id' value='{$row['id']}'/>
+                                </form>
                             </td>
                          </tr>";
                       
                       }
+                ?>
+                <?php
+                    if(isset($_POST['delete']) && $_POST['id']) {
+                        echo $_POST['id'];
+                    }
+                    if(isset($_POST['view']) && $_POST['id']) {
+                        echo "<script>
+                                window.location = `view.php/?id={$_POST['id']}`;
+                            </script>";
+                    }
                 ?>
                 </tbody>
             </table>
