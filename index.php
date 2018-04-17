@@ -85,6 +85,11 @@
                 <div id="doc_input" class="hidethis form-group">
                     <input type="file" name="uploaded_file"></input>
                 </div>
+                <div id="techer_name_id" class="form-group">
+                    <label for="techer_name">Teacher Name</label>
+                    <input type="text" class="form-control" id="techer_name" placeholder="Write Teacher Name"  name="techer_name">
+                    <small>this field is temprary here because after authentication teacher name is fetch from database dynamically</small>
+                </div>
                 <button type="submit" name="submit" class="btn btn-outline-secondary btn-block">Submit</button>
                 </form>
             </div>
@@ -95,7 +100,7 @@
         $servername = "localhost";
         $database = "lecture";
         $username = "root";
-        $password = "123456";
+        $password = "";
         $db = mysqli_connect($servername, $username, $password, $database);
 
         if (!$db) {
@@ -110,6 +115,7 @@
             $lec_type = $_POST['lec_type'];
             $course_name = $_POST['course_name'];
             $ppt_path = $_POST['ppt_path'];
+            $techer_name = $_POST['techer_name'];
             // $uploaded_file = $_POST['uploaded_file'];
             if($lec_title == ""){
                 echo "<script>window.open('index.php?name=Error: Lecture Title is Required','_self')</script>";
@@ -122,6 +128,9 @@
             }
             if($course_name == ""){
                 echo "<script>window.open('index.php?adress=Error: Course Name is Required','_self')</script>";
+            }
+            if($techer_name == ""){
+                echo "<script>window.open('index.php?adress=Error: Teacher Name is Required','_self')</script>";
             }
             else{
                 $path = "uploads/";
@@ -137,7 +146,7 @@
                     $path = $ppt_path;
                     echo $path;
                 }
-                $query = "INSERT INTO lectures(lec_title,prog_type,course_name,lec_type,file_path) VALUES('$lec_title','$prog_type','$course_name','$lec_type','$path')";
+                $query = "INSERT INTO lectures(lec_title,prog_type,course_name,lec_type,file_path,techer_name) VALUES('$lec_title','$prog_type','$course_name','$lec_type','$path', '$techer_name')";
                 if (mysqli_query($db, $query)) {
                     echo "<script>
                             gotoList()
